@@ -15,14 +15,18 @@ import java.util.Set;
 @RequestMapping("/stat")
 public class StatController {
 
-    private static Set<Integer> set = new HashSet<>();
+    private static Set<Val<Integer>> set = new HashSet<>();
+
+    static synchronized void addSet(Val<Integer> val) {
+        set.add(val);
+    }
 
     private static ThreadLocal<Val<Integer>> x = new ThreadLocal<Val<Integer>>() {
         @Override
         protected Val<Integer> initialValue() {
             Val<Integer> val = new Val<>();
             val.set(0);
-            set.add(val.get());
+            addSet(val);
             return val;
         }
     };
@@ -37,7 +41,7 @@ public class StatController {
 
     @RequestMapping("/get")
     public Integer get() {
-        return x.get().get();
+        return set.stream().map(Val::get).reduce(Integer::sum).get();
     }
 
 }
