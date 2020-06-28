@@ -1,4 +1,4 @@
-# 学习 ThreadLocal
+# ThreadLocal
 
 ## 并发接口示例
 

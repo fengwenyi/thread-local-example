@@ -8,19 +8,19 @@ import java.util.Set;
 
 /**
  * @author Erwin Feng
- * @since 19:29
+ * @since 2020-03-13 19:29
  */
 @RestController
 @RequestMapping("/stat")
 public class StatController {
 
-    private static Set<Val<Integer>> set = new HashSet<>();
+    private static final Set<Val<Integer>> set = new HashSet<>();
 
     private static synchronized void addSet(Val<Integer> val) {
         set.add(val);
     }
 
-    private static ThreadLocal<Val<Integer>> localSet = ThreadLocal.withInitial(() -> {
+    private static final ThreadLocal<Val<Integer>> localSet = ThreadLocal.withInitial(() -> {
         Val<Integer> val = new Val<>();
         val.set(0);
         addSet(val);
